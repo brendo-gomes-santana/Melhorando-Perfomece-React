@@ -1,61 +1,46 @@
 import { useRef } from 'react'
 import './App.css'
 import { Header } from './Header';
-
+import { useForm } from 'react-hook-form'
 
 function App() {
 
-  function handleSave(e){
-    e.preventDefault();
-    
-    console.log({
-      name: nameRef.current?.value,
-      email: emailRef.current?.value,
-      username: userNameRef.current?.value,
-      description: descriptionRef.current?.value,
-    })
+  const { register, handleSubmit } = useForm()
+ 
+  function handleSave(data){
+   
+    console.log(data) // tudo junto
+    console.log(data.nome) // ou pegar algo
   }
   
-  
-  const nameRef = useRef(null)
-  const emailRef = useRef(null)
-  const userNameRef = useRef(null)
-  const descriptionRef = useRef(null)
-
+ 
 
   return (
     <div className="container">
       <h1>React</h1>
       <Header/>
 
-      <form className="form" onSubmit={handleSave}>
+      <form className="form" onSubmit={handleSubmit(handleSave)}>
         <input
           type="text"
-          ref={nameRef}
           placeholder="Digite seu nome..."
+          {...register("name", { required: true })} // é obrigatório preencher
           className="input"
         />
 
         <input
           type="text"
-          ref={emailRef}
           placeholder="Digite seu email..."
+          {...register("email", {required: true})}
           className="input"
         />
 
         <input
           type="text"
-          ref={userNameRef}
           placeholder="Digite seu username..."
+          {...register("username")}
           className="input"
         />
-
-        <textarea
-          type="text"
-          ref={descriptionRef}
-          placeholder="Digite sua descriçao..."
-          className="input"
-        ></textarea>
 
 
         <button className="button" type="submit">Enviar</button>
